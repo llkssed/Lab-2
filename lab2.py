@@ -1,21 +1,15 @@
 import re
 import unittest
 
-# Регулярное выражение для проверки математического выражения
 math_expression_pattern = r'^[\d\.\+\-\*/\(\)\s]+$'
 
-# Функция для проверки математического выражения
 def is_valid_math_expression(expression: str) -> bool:
-    # Убираем пробелы для проверки структуры
     expression = expression.replace(" ", "")
-    # Проверяем на повторяющиеся операторы
     if re.search(r'[+\-*/]{2,}', expression):
         return False
-    # Проверяем валидность по основному шаблону
     return bool(re.match(math_expression_pattern, expression)) and is_balanced_parentheses(expression)
 
 def is_balanced_parentheses(expression: str) -> bool:
-    """Проверяет сбалансированность скобок в выражении"""
     stack = []
     for char in expression:
         if char == '(':
@@ -26,7 +20,6 @@ def is_balanced_parentheses(expression: str) -> bool:
             stack.pop()
     return not stack
 
-# Функция для проверки выражений из файла
 def check_expressions_in_file(file_path: str) -> list:
     try:
         with open(file_path, 'r') as file:
@@ -39,7 +32,6 @@ def check_expressions_in_file(file_path: str) -> list:
         print(f"Произошла ошибка при чтении файла: {e}")
         return []
 
-# Функция для получения выражений от пользователя
 def check_user_expression():
     expression = input("Введите математическое выражение: ").strip()
     if is_valid_math_expression(expression):
@@ -47,7 +39,6 @@ def check_user_expression():
     else:
         print("Выражение синтаксически некорректно.")
 
-# Основная функция для работы с вводом пользователя
 def main():
     while True:
         print("\nВыберите действие:")
@@ -73,7 +64,6 @@ def main():
         else:
             print("Некорректный выбор. Попробуйте снова.")
 
-# Юнит-тесты
 class TestMathExpression(unittest.TestCase):
     def test_valid_expressions(self):
         valid_expressions = [
@@ -102,8 +92,6 @@ class TestMathExpression(unittest.TestCase):
             self.assertFalse(is_valid_math_expression(expr))
 
 if __name__ == "__main__":
-    # Запуск юнит-тестов
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
-
-    # Запуск основной программы
+    
     main()
